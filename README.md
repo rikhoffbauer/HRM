@@ -17,7 +17,8 @@ Read Our Paper: [https://arxiv.org/abs/2506.21734](https://arxiv.org/abs/2506.21
 
 ### Prerequisites ⚙️
 
-Ensure PyTorch and CUDA are installed. The repo needs CUDA extensions to be built. If not present, run the following commands:
+Ensure PyTorch is installed. The repo supports CUDA and Apple silicon's Metal Performance Shaders (MPS) for acceleration.
+For NVIDIA GPUs, install CUDA and build the extensions with the commands below. For Apple silicon, see the MPS section after.
 
 ```bash
 # Install CUDA 12.6
@@ -36,6 +37,19 @@ pip3 install torch torchvision torchaudio --index-url $PYTORCH_INDEX_URL
 # Additional packages for building extensions
 pip3 install packaging ninja wheel setuptools setuptools-scm
 ```
+
+On Apple silicon, CUDA is not required. Install the PyTorch build with MPS support and optionally enable CPU fallback for
+unsupported operations:
+
+```bash
+# Install PyTorch with MPS support
+pip3 install torch torchvision torchaudio
+
+# Optional: allow CPU fallback for missing ops
+export PYTORCH_ENABLE_MPS_FALLBACK=1
+```
+
+The training scripts automatically select the MPS device when available.
 
 Then install FlashAttention. For Hopper GPUs, install FlashAttention 3
 
